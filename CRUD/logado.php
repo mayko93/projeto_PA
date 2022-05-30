@@ -6,5 +6,3 @@ if(!$_SESSION['LOGADO'] == true){
     header("Location: login.php?m=$msg");
     exit();
 }
-
-?>

@@ -32,4 +32,3 @@
     }else{
         echo "<p>Falha ao cadastrar cliente. Verifique!</p>";
     }
-?>
