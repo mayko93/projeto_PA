@@ -6,7 +6,11 @@ include_once("logado.php");
 include_once("conexao.php");
 
 // 3. CRIAR SCRIPT SQL
-$sql = "SELECT * FROM tarefa";
+$sql = "SELECT id_tarefa, tipo, codigoTarefa, dataHora, enderecoTarefa, autorizarTarefa FROM tarefa";
+
+if ($_SESSION['perfil'] != "ADM") {
+    $sql .= " WHERE codigoTarefa = '" . $_SESSION['user'] . "' ";
+}
 
 // 4. EXECUTAR SCRIPT SQL
 $resultado = mysqli_query($conexao, $sql);
@@ -25,9 +29,8 @@ $arResultado = mysqli_fetch_assoc($resultado);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página do Cliente</title>
     <link rel="shortcut icon" href="imagens/iconepag.ico">
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/jquery-3.6.0.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
@@ -43,20 +46,10 @@ $arResultado = mysqli_fetch_assoc($resultado);
                             <a class="nav-link" href="login.php">Trocar de usuário</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="tarefa.php">Nova tarefa</a>
+                            <a class="nav-link" href="novaTarefa.php">Nova tarefa</a>
                         </li>
-
-                        <?php
-                        /*
-                        if (isset($_GET["SAIR"])) {
-                            session_abort();
-                            header("Location: index.php");
-                        }*/
-
-                        ?>
-
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php?SAIR=true">Sair</a>
+                            <a class="nav-link" href="logout.php">Sair</a>
                         </li>
                     </ul>
 
@@ -90,10 +83,16 @@ $arResultado = mysqli_fetch_assoc($resultado);
                         <td><?php echo $arResultado['tipo'];  ?></td>
                         <td><?php echo $arResultado['dataHora'];  ?></td>
                         <td>
-                            <a href="editar.php">Editar</a>
+                            <a href="editar.php?a=<?php echo $arResultado['id_tarefa']; ?>">Editar</a>
                         </td>
                         <td>
-                            <a href="excluir.php?a=<?php echo $arResultado['id_tarefa'] ?>">Excluir</a>
+                            <a href="excluir.php?a=<?php echo $arResultado['id_tarefa'] ?>">Excluir
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                                </svg>
+
+                            </a>
                         </td>
                     </tr>
                 </tbody>

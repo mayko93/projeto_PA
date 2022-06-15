@@ -1,6 +1,6 @@
 <?php
 // 1. RECUPERAR DADOS DO FORMULÁRIO
-$cpf = $_POST['cpf'];
+$cpf = $_POST['user'];
 $senha = md5($_POST['senha']);
 
 // 2. CONECTAR AO BANCO DE DADOS
@@ -18,13 +18,17 @@ $arResultado = mysqli_fetch_assoc($resultado);
 // 5.1 DADOS CADASTRADOS NO BANCO DE DADOS
 $cpfCadastrado = $arResultado['cpf'];
 $senhaCadastrado = $arResultado['senha'];
-
+$perfilCadastrado = $arResultado['perfil'];
 // 6. REALIZAR OS PROCESSAMENTOS NECESSÁRIOS
 
 if ($senha == $senhaCadastrado) {
     // 6.1 - CASO DE SUCESSO
     session_start(); //INÍCIO DE SESSÃO
-    $_SESSION['LOGADO'] = true; //CONTROLE DE USUÁRIO LOGADO
+    //CONTROLE DE USUÁRIO LOGADO
+    $_SESSION['LOGADO'] = true;
+    $_SESSION['perfil'] = $perfilCadastrado;
+    $_SESSION['user'] = $arResultado['cpf']; 
+    
     $msg = "Seja bem vindo";
     header("Location: homeCliente.php?m=$msg");
     exit;

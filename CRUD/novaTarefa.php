@@ -1,23 +1,7 @@
 <?php
-//1. VERIFICAR SE O USUÁRIO ESTÁ LOGADO
+//VERIFICAR SE O USUÁRIO ESTÁ LOGADO
 include_once("logado.php");
-//1.1 RECUPERA E TRÁS O ID SELECIONADO
-$id = $_GET['a'];
-
-// 2. CONECTAR AO BANCO DE DADOS
-include_once("conexao.php");
-
-// 3. CRIAR SCRIPT SQL
-$sql = "SELECT * FROM tarefa";
-$sql .= " WHERE id_tarefa = " . $id;
-
-// 4. EXECUTAR SCRIPT SQL
-$resultado = mysqli_query($conexao, $sql);
-
-// 5. TRATAR DADOS RECUPERADOS DO BANCO DE DADOS
-$arResultado = mysqli_fetch_assoc($resultado);
-
-?>
+ ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,13 +19,17 @@ $arResultado = mysqli_fetch_assoc($resultado);
 <body>
 
     <div class="col-md-6" style="margin: 1%; ">
-        <h2 class="d-flex justify-content-center">Editar Tarefa</h2>
-        <form action="cEditar.php" method="POST">
+        <h2 class="d-flex justify-content-center">Nova Tarefa</h2>
+        <form action="cNovaTarefa.php" method="POST">
+
+            <div>
+            <label class="form-label">CPF</label>
+					<input type="number" class="form-control" name="cpf" id="cpf" placeholder="Digite seu CPF" required>
+
+            </div>
+
             <div class="form-check">
-            <label style="font-size: 20px ; font-weight:bold ;" class="form-label">ID: <?php echo $arResultado['id_tarefa']; ?></label>
-            <input type="hidden" name="id" value=" <?php echo $arResultado['id_tarefa']; ?> ">
-                
-            <label style="font-size: 20px ; font-weight:bold ;" class="form-label">Selecione o tipo de tarefa desejada:</label><br><br>
+                <label style="font-size: 20px ; font-weight:bold ;" class="form-label">Selecione o tipo de tarefa desejada:</label><br><br>
                 <input class="form-check-input" type="radio" name="tarefa" id="entregar" value="Entregar">
                 <label class="form-check-label">
                     Entregar
@@ -70,13 +58,14 @@ $arResultado = mysqli_fetch_assoc($resultado);
             </div><br>
 
             <div class="col-12">
-                <button class="btn btn-primary" type="submit">Editar</button>
+                <button class="btn btn-primary" type="submit">Solicitar</button>
                 <button class="btn btn-primary" type="reset">Limpar campos</button>
 
 
             </div>
         </form>
-        <br><br><button class="btn btn-primary">Cancelar Solicitação<a href="homeCliente.php"></a></button>
+        <br><br><a class="btn btn-primary" href="homeCliente.php" role="button">Cancelar Solicitação</a>
+        
     </div>
 
 </body>
